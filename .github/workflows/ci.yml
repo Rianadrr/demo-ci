@@ -5,6 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_KEY: ${{ secrets.AWS_KEY }}  # <- pakai secret GitHub
 
     steps:
     - name: Checkout Repository
