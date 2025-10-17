@@ -1,4 +1,4 @@
-name: Node.js CI
+name: CI with Security Scan
 
 on: [push]
 
@@ -7,15 +7,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: npm install
 
-    - name: Run Tests
+    - name: Run Unit Tests
       run: npm test
+
+    - name: Run NPM Audit (Dependency Scan)
+      run: npm audit --audit-level=high
+
+    - name: GitLeaks Scan (Secrets Detection)
+      uses: zricethezav/gitleaks-action@v1.6.0
